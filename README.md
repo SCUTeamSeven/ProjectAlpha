@@ -41,6 +41,43 @@
 ###  Project Flow:
 
 ###  Project Requirements List:
+ * [ ] Clientside
+	 * [ ] Realtime DB
+	 * [ ] Administrator View
+		 * [ ] Building Management
+			 * [ ] Create building
+			 * [ ] Modify building
+			 * [ ] Archive building
+			 * [ ] Search tasks by Building
+			 * [ ] Room Management
+				 * [ ] Create room
+				 * [ ] Modify room
+				 * [ ] Archive room
+				 * [ ] Search tasks by Room
+		 * [ ] Employee Management
+			 * [ ] Add Operator / Admin
+			 * [ ] Remove Operator / Admin
+			 * [ ] Modify Operator / Admin
+		 * [ ] Task Operations
+			 * [ ] Search tasks
+			 * [ ] View tasks
+			 * [ ] Assign tasks
+			 * [ ] Complete tasks
+			 * [ ] Delete tasks
+			 * [ ] Create tasks
+			 * [ ] Modify tasks
+			 * [ ] Create task template
+			 * [ ] Delete task template
+			 * [ ] Modify task template
+	 * [ ] Operator View
+		 * [ ] Task Operations
+			 * [ ] Search tasks
+			 * [ ] View tasks
+			 * [ ] Complete tasks
+* [ ] Serverside
+	* [ ] Realtime DB
+	* [ ] Hybrid API (Offline viewing)
+		* [ ] Offline cookie queue?
 
 ### Project Images:
 
