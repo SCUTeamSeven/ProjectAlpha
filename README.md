@@ -1,4 +1,5 @@
 
+
 # ProjectAlpha
 ### SCU Media Services Cloud CMMS Software (SCU MS CCMMS Software) - (Ex: IT CCMMS Software)
 ###  CSCI 187 Group Software Project
@@ -80,5 +81,5 @@
 		* [ ] Offline cookie queue?
 
 ### Project Images:
-
-
+#### Project Data Flow
+![enter image description here](https://i.imgur.com/PDx7fCu.png)
