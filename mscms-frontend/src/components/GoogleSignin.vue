@@ -1,48 +1,55 @@
 <template>
-<div>
-  <h1>IsInit: {{ Vue3GoogleOauth.isInit }}</h1>
-  <h1>IsAuthorized: {{ Vue3GoogleOauth.isAuthorized }}</h1>
-  <h2 v-if="user">signed user: {{user}}</h2>
-  <button @click="handleClickSignIn" :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized">sign in</button>
-  <button @click="handleClickGetAuthCode" :disabled="!Vue3GoogleOauth.isInit">get authCode</button>
-  <button @click="handleClickSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">sign out</button>
-  <button @click="handleClickDisconnect" :disabled="!Vue3GoogleOauth.isAuthorized">disconnect</button>
-</div>
+  <div>
+    <button @click="handleClickSignIn" v-show="!Vue3GoogleOauth.isAuthorized">
+      <span class="login-text">Sign in with </span><img class="glogo" alt="Google logo" src="../assets/glogo.png">
+    </button>
+
+    <button @click="handleClickSignOut" v-show="Vue3GoogleOauth.isAuthorized" >
+      Sign Out
+    </button>
+
+  </div>
 </template>
 
 <script>
 import { inject, toRefs } from 'vue'
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
+  name: 'GoogleSignIn',
   data () {
     return {
-      user: ''
+      user: {}
+    }
+  },
+  watch: {
+    user: function () {
+      this.$emit('gAuth', this.user)
     }
   },
   methods: {
     async handleClickSignIn () {
       try {
         const googleUser = await this.$gAuth.signIn()
+
         if (!googleUser) {
           return null
         }
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile()
-        this.user = profile.getEmail()
-        console.log(profile)
-        console.log('ID: ' + profile.getId()) // Don't send this directly to your server!
-        console.log('Full Name: ' + profile.getName())
-        console.log('Given Name: ' + profile.getGivenName())
-        console.log('Family Name: ' + profile.getFamilyName())
-        console.log('Image URL: ' + profile.getImageUrl())
-        console.log('Email: ' + profile.getEmail())
 
-        // The ID token you need to pass to your backend:
+        // User profile obtained by Google
+        var profile = googleUser.getBasicProfile()
+
+        // Clientside authenticated user information
+        this.user = { email: profile.getEmail(), fullName: profile.getName(), ID: profile.getId(), givenName: profile.getGivenName(), imageURL: profile.getImageUrl(), isAdmin: false }
+
+        // Authentication token for the flask web API server
         var idToken = googleUser.getAuthResponse().id_token
-        console.log('ID Token: ' + idToken)
+
+        // Check if admin
+        if (this.user.email === 'jjimenez2@scu.edu' || this.user.email === 'csarkissian@scu.edu') {
+          this.user.isAdmin = true
+          this.user.authToken = idToken
+        } else {
+          this.user.authToken = idToken
+        }
       } catch (error) {
         // on fail do something
         console.error(error)
@@ -63,7 +70,7 @@ export default {
       try {
         await this.$gAuth.signOut()
         console.log('isAuthorized', this.Vue3GoogleOauth.isAuthorized)
-        this.user = ''
+        this.user = {}
       } catch (error) {
         console.error(error)
       }
@@ -112,5 +119,14 @@ button:disabled {
   background: #fff;
   color: #ddd;
   cursor: not-allowed;
+}
+.glogo {
+  width: 17px;
+  padding-left: 4px;
+}
+
+.login-text {
+  font-size: 150%;
+  padding: 4px;
 }
 </style>
