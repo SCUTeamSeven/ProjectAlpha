@@ -1,8 +1,9 @@
 
 
-# ProjectAlpha
-### SCU Media Services Cloud CMMS Software (SCU MS CCMMS Software) - (Ex: IT CCMMS Software)
-###  CSCI 187 Group Software Project
+# MSCMS
+### Media Services Cloud Maintenance System
+### CSCI 187 Group Software Project
+### [Camino Team](https://camino.instructure.com/groups/66146)
 ### Members: [Axel Hernandezruano](https://camino.instructure.com/courses/72541/users/42159), [Christopher Sarkissian](https://camino.instructure.com/courses/72541/users/42292), [Irvin Samuel](https://camino.instructure.com/courses/72541/users/42245), [Jacob Jimenez](https://camino.instructure.com/courses/72541/users/42631)
 -----
 ### Project Progress: 
