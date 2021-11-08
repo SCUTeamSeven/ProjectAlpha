@@ -20,7 +20,7 @@
 
 * **Backend**
 	* Python
-		Flask
+		* Flask
 * **Frontend**
 	* HTML, CSS, and JS
 		* JS Plugins
