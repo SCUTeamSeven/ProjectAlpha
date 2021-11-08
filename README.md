@@ -38,6 +38,9 @@
 
 ###  Project Requirements List:
  * [ ] Clientside
+	 * [ ] Home / Authentication Page
+	 	 * [ ] Operator View
+	 	 * [ ] Administrator View
 	 * [ ] Administrator View
 		 * [ ] Building Management
 			 * [ ] Create building
