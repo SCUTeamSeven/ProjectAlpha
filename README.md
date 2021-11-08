@@ -20,19 +20,13 @@
 
 * **Backend**
 	* Python
-		* *Django?*
-		* *Flask?*
-	* *Node.js?*
-	* *Ruby?*
-		* *Ruby on Rails?*
-		* *Sinatra?*
+		Flask
 * **Frontend**
 	* HTML, CSS, and JS
 		* JS Plugins
-		* MVC or View Library
+		* Vue.js 3.X
 * **Data Management**
-	* Firebase
-	* *Local Storage?*
+	* Google Sheets
 
 -----
 ## Project Details
@@ -43,7 +37,6 @@
 
 ###  Project Requirements List:
  * [ ] Clientside
-	 * [ ] Realtime DB
 	 * [ ] Administrator View
 		 * [ ] Building Management
 			 * [ ] Create building
@@ -76,10 +69,11 @@
 			 * [ ] View tasks
 			 * [ ] Complete tasks
 * [ ] Serverside
-	* [ ] Realtime DB
-	* [ ] Hybrid API (Offline viewing)
-		* [ ] Offline cookie queue?
+	* [ ] Google Sheets data manipulation
+	* [ ] REST API (Offline viewing)
+	* [ ] User authentication
 
 ### Project Images:
 #### Project Data Flow
+Basic understanding of backend overview
 ![enter image description here](https://i.imgur.com/PDx7fCu.png)
