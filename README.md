@@ -61,9 +61,9 @@
 			 * [ ] Delete tasks
 			 * [ ] Create tasks
 			 * [ ] Modify tasks
-			 * [ ] Create task template
-			 * [ ] Delete task template
-			 * [ ] Modify task template
+			 * [ ] Create task type
+			 * [ ] Delete task type
+			 * [ ] Modify task type
 	 * [ ] Operator View
 		 * [ ] Task Operations
 			 * [ ] Search tasks
