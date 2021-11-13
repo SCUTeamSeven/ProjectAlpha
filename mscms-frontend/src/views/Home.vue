@@ -1,26 +1,38 @@
 <template>
-  <div class="home">
-    <GoogleSignIn @gAuth="onAuth"></GoogleSignIn>
+  <div class="main-view">
+    <Header @gAuth="onAuth"></Header>
+    <Welcome v-show="!isAuthed"></Welcome>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import GoogleSignIn from '@/components/GoogleSignIn.vue'
+import Header from '@/components/Header.vue'
+import Welcome from '@/components/Welcome.vue'
 
 export default {
   name: 'Home',
   components: {
-    GoogleSignIn
+    Header,
+    Welcome
   },
   data () {
     return {
-      user: {}
+      user: {},
+      isAuthed: false,
+      isAdmin: false
     }
   },
   methods: {
     onAuth (e) {
-      this.user = e
+      if (e) {
+        this.user = e
+        this.isAuthed = true
+        this.isAdmin = this.user.isAdmin
+      } else {
+        this.isAuthed = false
+        alert('User has not been authenticated.')
+      }
     }
   }
 }

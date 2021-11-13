@@ -1,11 +1,11 @@
 <template>
   <div>
-    <button @click="handleClickSignIn" v-show="!Vue3GoogleOauth.isAuthorized">
-      <span class="login-text">Sign in with </span><img class="glogo" alt="Google logo" src="../assets/glogo.png">
+    <button class="login-button" @click="handleClickSignIn" v-show="!Vue3GoogleOauth.isAuthorized">
+      <span class="login-text">Sign in</span>
     </button>
 
-    <button @click="handleClickSignOut" v-show="Vue3GoogleOauth.isAuthorized" >
-      Sign Out
+    <button class="login-button" @click="handleClickSignOut" v-show="Vue3GoogleOauth.isAuthorized" >
+      <span class="logout-text">Sign Out</span>
     </button>
 
   </div>
@@ -74,6 +74,9 @@ export default {
       } catch (error) {
         console.error(error)
       }
+
+      // Reload the page
+      this.$router.go()
     },
     handleClickDisconnect () {
       window.location.href = `https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=${window.location.href}`
@@ -115,18 +118,16 @@ button {
   border-radius: 4px;
   margin-right: 1em;
 }
-button:disabled {
-  background: #fff;
-  color: #ddd;
-  cursor: not-allowed;
+.login-button {
+  background-color: lightgreen;
 }
-.glogo {
-  width: 17px;
-  padding-left: 4px;
-}
-
 .login-text {
-  font-size: 150%;
-  padding: 4px;
+  color: white;
+}
+.logout-button {
+  background-color: lightgrey;
+}
+.logout-text {
+  color: white;
 }
 </style>
