@@ -1,8 +1,9 @@
 
 
-# ProjectAlpha
-### SCU Media Services Cloud CMMS Software (SCU MS CCMMS Software) - (Ex: IT CCMMS Software)
-###  CSCI 187 Group Software Project
+# MSCMS
+### Media Services Cloud Maintenance System
+### CSCI 187 Group Software Project
+### [Camino Team](https://camino.instructure.com/groups/66146)
 ### Members: [Axel Hernandezruano](https://camino.instructure.com/courses/72541/users/42159), [Christopher Sarkissian](https://camino.instructure.com/courses/72541/users/42292), [Irvin Samuel](https://camino.instructure.com/courses/72541/users/42245), [Jacob Jimenez](https://camino.instructure.com/courses/72541/users/42631)
 -----
 ### Project Progress: 
@@ -20,19 +21,13 @@
 
 * **Backend**
 	* Python
-		* *Django?*
-		* *Flask?*
-	* *Node.js?*
-	* *Ruby?*
-		* *Ruby on Rails?*
-		* *Sinatra?*
+		* Flask
 * **Frontend**
 	* HTML, CSS, and JS
 		* JS Plugins
-		* MVC or View Library
+		* Vue.js 3.X
 * **Data Management**
-	* Firebase
-	* *Local Storage?*
+	* Google Sheets
 
 -----
 ## Project Details
@@ -43,7 +38,9 @@
 
 ###  Project Requirements List:
  * [ ] Clientside
-	 * [ ] Realtime DB
+	 * [ ] Home / Authentication Page
+	 	 * [ ] Operator View
+	 	 * [ ] Administrator View
 	 * [ ] Administrator View
 		 * [ ] Building Management
 			 * [ ] Create building
@@ -67,19 +64,20 @@
 			 * [ ] Delete tasks
 			 * [ ] Create tasks
 			 * [ ] Modify tasks
-			 * [ ] Create task template
-			 * [ ] Delete task template
-			 * [ ] Modify task template
+			 * [ ] Create task type
+			 * [ ] Delete task type
+			 * [ ] Modify task type
 	 * [ ] Operator View
 		 * [ ] Task Operations
 			 * [ ] Search tasks
 			 * [ ] View tasks
 			 * [ ] Complete tasks
 * [ ] Serverside
-	* [ ] Realtime DB
-	* [ ] Hybrid API (Offline viewing)
-		* [ ] Offline cookie queue?
+	* [ ] Google Sheets data manipulation
+	* [ ] REST API (Offline viewing)
+	* [ ] User authentication
 
 ### Project Images:
 #### Project Data Flow
+Basic understanding of backend overview
 ![enter image description here](https://i.imgur.com/PDx7fCu.png)
