@@ -1,6 +1,6 @@
 <template>
   <div class="main-view">
-    <Header @gAuth="onAuth"></Header>
+    <Header @gAuth="onAuth" @currentPage="updatePage"></Header>
     <Welcome v-show="!isAuthed"></Welcome>
     <aTasks v-show="currentPage === 'Tasks'"></aTasks>
     <Buildings v-show="currentPage === 'Buildings'"></Buildings>
@@ -44,9 +44,8 @@ export default {
         alert('User has not been authenticated.')
       }
     },
-    recurCurrentPage (e) {
+    updatePage (e) {
       this.currentPage = e
-      alert(e)
     }
   }
 }

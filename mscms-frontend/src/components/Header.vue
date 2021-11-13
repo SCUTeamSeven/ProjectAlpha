@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <img src="../assets/sculogo.png" class="logo-image" />
-    <Menu :signedUser="user"></Menu>
+    <Menu :signedUser="user" @c="sendPage"></Menu>
     <GoogleSignIn class="sign-in-component" @gAuth="onAuth"></GoogleSignIn>
   </div>
 </template>
@@ -31,8 +31,8 @@ export default {
     onAuth (e) {
       this.user = e
     },
-    changeCurrentPage (e) {
-      this.$emit('recurCurrentPage', e)
+    sendPage (e) {
+      this.$emit('currentPage', e)
     }
   }
 }

@@ -1,9 +1,9 @@
 <template>
   <div class="menu">
-        <p>
-          <button @click="$emit('changeCurrentPage', 'aTasks')" v-if="user.isAdmin">Tasks</button>
-          <button @click="$emit('changeCurrentPage', 'Buildings')" v-if="user.isAdmin">Buildings</button>
-          <button @click="$emit('changeCurrentPage', 'Employees')" v-if="user.isAdmin">Employees</button>
+      <p>
+          <button @click="$emit('c', 'Tasks')" v-if="user.isAdmin">Tasks</button>
+          <button @click="$emit('c', 'Buildings')" v-if="user.isAdmin">Buildings</button>
+          <button @click="$emit('c', 'Employees')" v-if="user.isAdmin">Employees</button>
       </p>
   </div>
 </template>
