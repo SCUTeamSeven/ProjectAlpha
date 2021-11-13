@@ -30,6 +30,9 @@ export default {
   methods: {
     onAuth (e) {
       this.user = e
+    },
+    changeCurrentPage (e) {
+      this.$emit('recurCurrentPage', e)
     }
   }
 }
