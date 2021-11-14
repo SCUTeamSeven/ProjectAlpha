@@ -1,10 +1,10 @@
 <template>
   <div>
-    <button class="login-button" @click="handleClickSignIn" v-show="!Vue3GoogleOauth.isAuthorized">
+    <button class="login-button" @click="handleClickSignIn" v-if="!Vue3GoogleOauth.isAuthorized">
       <span class="login-text">Sign in</span>
     </button>
 
-    <button class="login-button" @click="handleClickSignOut" v-show="Vue3GoogleOauth.isAuthorized" >
+    <button class="login-button" @click="handleClickSignOut" v-if="Vue3GoogleOauth.isAuthorized" >
       <span class="logout-text">Sign Out</span>
     </button>
 
@@ -28,38 +28,7 @@ export default {
   methods: {
     async handleClickSignIn () {
       try {
-        const googleUser = await this.$gAuth.signIn()
-
-        if (!googleUser) {
-          return null
-        }
-
-        // User profile obtained by Google
-        var profile = googleUser.getBasicProfile()
-
-        // Clientside authenticated user information
-        this.user = { email: profile.getEmail(), fullName: profile.getName(), ID: profile.getId(), givenName: profile.getGivenName(), imageURL: profile.getImageUrl(), isAdmin: false }
-
-        // Authentication token for the flask web API server
-        var idToken = googleUser.getAuthResponse().id_token
-
-        // Check if admin
-        if (this.user.email === 'jjimenez2@scu.edu' || this.user.email === 'csarkissian@scu.edu') {
-          this.user.isAdmin = true
-          this.user.authToken = idToken
-        } else {
-          this.user.authToken = idToken
-        }
-      } catch (error) {
-        // on fail do something
-        console.error(error)
-        return null
-      }
-    },
-    async handleClickGetAuthCode () {
-      try {
-        const authCode = await this.$gAuth.getAuthCode()
-        console.log('authCode', authCode)
+        this.getGoogleProfile(await this.$gAuth.signIn())
       } catch (error) {
         // on fail do something
         console.error(error)
@@ -69,17 +38,35 @@ export default {
     async handleClickSignOut () {
       try {
         await this.$gAuth.signOut()
-        console.log('isAuthorized', this.Vue3GoogleOauth.isAuthorized)
         this.user = {}
       } catch (error) {
         console.error(error)
       }
 
-      // Reload the page
-      this.$router.go()
+      // // Reload the page
+      // this.$router.go()
     },
-    handleClickDisconnect () {
-      window.location.href = `https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=${window.location.href}`
+    getGoogleProfile (googleUser) {
+      if (!googleUser) {
+        return null
+      }
+
+      // User profile obtained by Google
+      var profile = googleUser.getBasicProfile()
+
+      // Clientside authenticated user information
+      this.user = { email: profile.getEmail(), fullName: profile.getName(), ID: profile.getId(), givenName: profile.getGivenName(), imageURL: profile.getImageUrl(), isAdmin: false }
+
+      // Authentication token for the flask web API server
+      var idToken = googleUser.getAuthResponse().id_token
+
+      // Authorize user
+      if (this.user.email === 'jjimenez2@scu.edu' || this.user.email === 'csarkissian@scu.edu') {
+        this.user.isAdmin = true
+        this.user.authToken = idToken
+      } else {
+        this.user.authToken = idToken
+      }
     }
   },
   setup (props) {
@@ -91,6 +78,9 @@ export default {
       handleClickLogin,
       isSignIn
     }
+  },
+  updated () {
+    this.getGoogleProfile(this.$gAuth.instance.currentUser.Vd)
   }
 }
 </script>
