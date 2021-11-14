@@ -1,10 +1,10 @@
 <template>
   <div class="main-view">
-    <Header @gAuth="onAuth" @currentPage="updatePage"></Header>
-    <Welcome v-show="!isAuthed"></Welcome>
-    <aTasks v-show="currentPage === 'Tasks'"></aTasks>
-    <Buildings v-show="currentPage === 'Buildings'"></Buildings>
-    <Employees v-show="currentPage === 'Employees'"></Employees>
+    <Header @gAuth="onAuth" @currentPage="updatePage" :inputTitle="currentTitle"></Header>
+    <Welcome v-if="!isAuthed"></Welcome>
+    <aTasks v-if="currentPage === 'Tasks'" @t="changeTitle"></aTasks>
+    <Buildings v-if="currentPage === 'Buildings'" @t="changeTitle"></Buildings>
+    <Employees v-if="currentPage === 'Employees'" @t="changeTitle"></Employees>
   </div>
 </template>
 
@@ -30,7 +30,8 @@ export default {
       user: {},
       isAuthed: false,
       isAdmin: false,
-      currentPage: ''
+      currentPage: '',
+      currentTitle: ''
     }
   },
   methods: {
@@ -46,6 +47,10 @@ export default {
     },
     updatePage (e) {
       this.currentPage = e
+    },
+    changeTitle (t) {
+      console.log(t)
+      this.currentTitle = t
     }
   }
 }

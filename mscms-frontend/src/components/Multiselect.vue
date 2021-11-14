@@ -1,21 +1,19 @@
 <template>
   <div>
-<VueMultiselect
- v-model="value"
- :options="options"
- :multiple="true"
- group-values="libs"
- group-label="language"
- :group-select="true"
- placeholder="Type to search"
- track-by="name"
- label="name"
- :close-on-select="false"
- @select="dispatchAction"
- :allow-empty="false"
- :show-labels="false"
-/>
-
+    <VueMultiselect
+    v-model="value"
+    :options="options"
+    :multiple="true"
+    group-values="libs"
+    group-label="language"
+    :group-select="true"
+    placeholder="Type to search"
+    track-by="name"
+    label="name"
+    :close-on-select="false"
+    @select="dispatchAction"
+    :show-labels="false"
+    />
   </div>
 </template>
 

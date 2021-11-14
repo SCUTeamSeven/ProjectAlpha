@@ -1,15 +1,12 @@
 <template>
   <div class="menu">
-      <p>
-          <button @click="$emit('c', 'Tasks')" v-if="user.isAdmin">Tasks</button>
-          <button @click="$emit('c', 'Buildings')" v-if="user.isAdmin">Buildings</button>
-          <button @click="$emit('c', 'Employees')" v-if="user.isAdmin">Employees</button>
-      </p>
+    <button @click="$emit('c', 'Buildings')" v-if="user.isAdmin">View/Edit Buildings</button>
+    <button @click="$emit('c', 'Tasks')" v-if="user.isAdmin">Create/Assign Tasks</button>
+    <button @click="$emit('c', 'Employees')" v-if="user.isAdmin">Manage Employees</button>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'Menu',
   components: {
@@ -29,10 +26,16 @@ export default {
       this.isAuthed = true
     }
   },
-  methods: {
+  created () {
+    this.user = this.signedUser
+    this.isAuthed = true
   }
 }
 </script>
 
 <style>
+.menu{
+  display:flex;
+  justify-content: space-evenly;
+}
 </style>
