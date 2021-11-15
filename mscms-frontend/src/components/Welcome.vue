@@ -42,6 +42,8 @@ export default {
   border-radius:10px;
   background-color: #b30738;
   color:white;
+  cursor: pointer;
+  transition: all .2s;
 }
 .home-signin button:hover {
   background-color: white;
