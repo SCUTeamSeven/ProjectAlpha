@@ -1,6 +1,14 @@
 <template>
   <div class="buildings">
     <h1>View/Edit Buildings</h1>
+    <table>
+      <tr>
+        <th><input type='checkbox' v-model="allChecked"></th>
+        <th>Building</th>
+        <th>Rooms</th>
+        <th>Tasks</th>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -11,6 +19,7 @@ export default {
   },
   data () {
     return {
+      allChecked: false
     }
   }
 }
