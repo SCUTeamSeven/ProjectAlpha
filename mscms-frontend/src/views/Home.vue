@@ -1,10 +1,13 @@
 <template>
   <div class="main-view">
-    <Header @gAuth="onAuth" @currentPage="updatePage" :inputTitle="currentTitle"></Header>
+    <Header @headerAuth="onAuth" @currentPage="updatePage"></Header>
     <Welcome v-if="!isAuthed"></Welcome>
-    <aTasks v-if="currentPage === 'Tasks'" @t="changeTitle"></aTasks>
-    <Buildings v-if="currentPage === 'Buildings'" @t="changeTitle"></Buildings>
-    <Employees v-if="currentPage === 'Employees'" @t="changeTitle"></Employees>
+    <aTasks v-if="currentPage === 'Tasks'"></aTasks>
+    <Buildings v-if="currentPage === 'Buildings'"></Buildings>
+    <Employees v-if="currentPage === 'Employees'"></Employees>
+    <div v-if="currentPage === 'Home' && isAuthed">
+      <h1> Welcome, {{this.user.givenName}} </h1>
+    </div>
   </div>
 </template>
 
@@ -30,8 +33,7 @@ export default {
       user: {},
       isAuthed: false,
       isAdmin: false,
-      currentPage: '',
-      currentTitle: ''
+      currentPage: 'Home'
     }
   },
   methods: {
@@ -47,11 +49,16 @@ export default {
     },
     updatePage (e) {
       this.currentPage = e
-    },
-    changeTitle (t) {
-      console.log(t)
-      this.currentTitle = t
     }
   }
 }
 </script>
+
+<style>
+ h1 {
+   padding:30px 20px;
+   font-size: 3em;
+   margin: 0;
+   background-color:#e6ebee;
+ }
+</style>

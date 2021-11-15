@@ -1,6 +1,6 @@
 <template>
   <div class="buildings">
-    <h1>Buildings</h1>
+    <h1>View/Edit Buildings</h1>
   </div>
 </template>
 
@@ -11,11 +11,7 @@ export default {
   },
   data () {
     return {
-      title: 'View/Edit Buildings'
     }
-  },
-  created () {
-    this.$emit('t', this.title)
   }
 }
 </script>

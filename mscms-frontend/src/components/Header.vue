@@ -1,14 +1,8 @@
 <template>
-  <div class="header">
-    <div class="top-bar">
-    <img src="../assets/sculogo.png" class="logo-image" />
-    <GoogleSignIn class="sign-in-component" @gAuth="onAuth"/>
-    </div>
-    <div class="title-bar">
-      <h1 v-if="ready"> {{currentTitle}} </h1>
-      <button v-if="(user.isAdmin) && (currentPage !== 'Home')" @click="sendPage('Home')">Back to Home</button>
-    </div>
-    <Menu v-if="currentPage === 'Home'" :signedUser="user" @c="sendPage"/>
+  <div class="top-bar">
+  <img src="../assets/sculogo.png" class="logo-image" />
+  <Menu :signedUser="user" @c="sendPage"/>
+  <GoogleSignIn  class="signin-container" v-show="firstSignIn" @googleAuth="onAuth"/>
   </div>
 </template>
 
@@ -19,9 +13,6 @@ import Menu from '@/components/Menu.vue'
 
 export default {
   name: 'Header',
-  props: {
-    inputTitle: String
-  },
   components: {
     GoogleSignIn,
     Menu
@@ -29,30 +20,22 @@ export default {
   data () {
     return {
       user: {},
-      currentPage: 'Home',
-      currentTitle: '',
-      ready: false
+      firstSignIn: false
     }
   },
   watch: {
     user: function () {
-      this.currentTitle = 'Welcome, ' + this.user.givenName
-      this.$emit('gAuth', this.user)
-    },
-    inputTitle: function () {
-      this.currentTitle = this.inputTitle
+      this.firstSignIn = true
+      this.$emit('headerAuth', this.user)
     }
   },
   methods: {
     onAuth (e) {
       this.user = e
-      this.ready = !(Object.keys(this.user).length === 0)
+      this.$emit('headerAuth', this.user)
+      // this.ready = !(Object.keys(this.user).length === 0)
     },
     sendPage (e) {
-      this.currentPage = e
-      if (e === 'Home') {
-        this.currentTitle = 'Welcome, ' + this.user.givenName
-      }
       this.$emit('currentPage', e)
     }
   }
@@ -60,28 +43,46 @@ export default {
 </script>
 
 <style lang='scss'>
-$primary-color: #b30738;
+
 .header {
   display: flex;
   flex-direction:column;
 }
 .top-bar{
+  height:60px;
   display:flex;
   align-items: center;
-  justify-content: center;
-  padding:10px;
-  background-color: $primary-color;
+  justify-content: space-between;
+  background-color: #b30738;
+  padding:0 10px;
   box-shadow: 0px 2px 9px 0px rgba(0,0,0,0.4);
 }
-.title-bar{
-  display: flex;
+.signin-container{
+  height:100%;
+  display:flex;
   align-items: center;
-  padding:0 20px;
 }
-.sign-in-component {
-  margin-left: auto;
+.signin-container button {
+  height:60%;
+  background-color:white;
+  border-radius:5px;
+  margin:0 10px;
+  color:black;
+  border:none;
+  font-size:18px;
+  transition:all .2s;
+  padding:0 10px;
+  cursor:pointer;
+  border: 1px solid white;
 }
+.signin-container button:hover {
+  box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.5);
+  background-color:#b30738;
+  color: white;
+  border:1px solid white;
+}
+
 .logo-image {
-  width: 5%;
+  width: 50px;
 }
 </style>
