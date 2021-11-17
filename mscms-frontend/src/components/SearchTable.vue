@@ -29,9 +29,6 @@
 
 <script>
 export default {
-  props: {
-    taskType: String
-  },
   data () {
     return {
       globalHeaders: [],

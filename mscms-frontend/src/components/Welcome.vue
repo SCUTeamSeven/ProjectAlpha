@@ -1,7 +1,7 @@
 <template>
   <div class = 'container'>
     <h1 class="welcome-message">Welcome to MSCMS, please sign in to proceed.</h1>
-    <GoogleSignIn class ='home-signin'/>
+    <GoogleSignIn class ='home-signin' @googleAuth="welcomeAuth"/>
   </div>
 </template>
 
@@ -20,6 +20,9 @@ export default {
   watch: {
   },
   methods: {
+    welcomeAuth (e) {
+      this.$emit('welcomeAuth', e)
+    }
   }
 }
 </script>
@@ -36,8 +39,8 @@ export default {
 }
 .home-signin button{
   margin:50px 0;
-  padding:10px 20px;
-  font-size:35px;
+  padding:15px 60px;
+  font-size:25px;
   border:1px solid gray;
   border-radius:10px;
   background-color: #b30738;

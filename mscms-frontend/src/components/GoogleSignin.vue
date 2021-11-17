@@ -46,10 +46,8 @@ export default {
 
       // User profile obtained by Google
       var profile = googleUser.getBasicProfile()
-
       // Clientside authenticated user information
       this.user = { email: profile.getEmail(), fullName: profile.getName(), ID: profile.getId(), givenName: profile.getGivenName(), imageURL: profile.getImageUrl(), isAdmin: false }
-
       // Authentication token for the flask web API server
       var idToken = googleUser.getAuthResponse().id_token
 
@@ -60,6 +58,7 @@ export default {
       } else {
         this.user.authToken = idToken
       }
+      this.$emit('googleAuth', this.user)
     }
   },
   setup (props) {
@@ -70,12 +69,6 @@ export default {
       Vue3GoogleOauth,
       handleClickLogin,
       isSignIn
-    }
-  },
-  updated () {
-    if ((Object.keys(this.user).length === 0)) {
-      this.getGoogleProfile(this.$gAuth.instance.currentUser.Vd)
-      this.$emit('googleAuth', this.user)
     }
   }
 }
