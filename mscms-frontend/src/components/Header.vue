@@ -5,7 +5,7 @@
     <Menu :signedUser="user" @c="sendPage"/>
     <div style='height:100%' v-show="firstSignIn">
       <button class = 'user-button'> Hello, {{ user.givenName }}</button>
-      <GoogleSignIn  class="signin-container" v-show="firstSignIn"/>
+      <GoogleSignIn  class="signin-container" v-if="firstSignIn"/>
     </div>
   </div>
   <Welcome v-if="!firstSignIn" @welcomeAuth="onAuth"></Welcome>
@@ -31,14 +31,9 @@ export default {
       firstSignIn: false
     }
   },
-  watch: {
-    user: function () {
-      this.firstSignIn = true
-      this.$emit('headerAuth', this.user)
-    }
-  },
   methods: {
     onAuth (e) {
+      this.firstSignIn = true
       this.user = e
       this.$emit('headerAuth', this.user)
     },
@@ -83,7 +78,7 @@ export default {
   background-color:white;
   color:black;
 }
-.user-button {
+.user-button, .menu button {
   height:100%;
   margin:0;
   background-color: transparent;
@@ -95,7 +90,7 @@ export default {
   cursor: pointer;
 }
 
-.user-button:hover{
+.user-button:hover, .menu button:hover{
   box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.5);
   background-color:white;
   color: black;

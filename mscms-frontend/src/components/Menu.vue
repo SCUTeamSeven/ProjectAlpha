@@ -36,21 +36,4 @@ export default {
   justify-content: space-evenly;
   height:100%;
 }
-.menu button {
-  height:100%;
-  margin:0;
-  background-color: transparent;
-  border:none;
-  color:white;
-  font-size: 18px;
-  padding:0 20px;
-  transition: all .2s;
-  cursor: pointer;
-}
-
-.menu button:hover {
-  box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.5);
-  background-color:white;
-  color: black;
-}
 </style>
