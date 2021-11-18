@@ -77,7 +77,6 @@ export default {
   },
   beforeMount () {
     var userCookie = this.cookies.get('user')
-
     if (userCookie !== null) {
       var len = Object.keys(userCookie).length
 

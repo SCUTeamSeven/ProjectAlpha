@@ -2,7 +2,7 @@
   <div class="main-view">
     <Header @headerAuth="onAuth" @currentPage="updatePage"></Header>
     <aTasks v-if="currentPage === 'Tasks' && isAdmin"></aTasks>
-    <Buildings v-if="currentPage === 'Buildings' && isAdmin"></Buildings>
+    <Buildings v-if="currentPage === 'Buildings' && isAdmin" :buildings="buildings"></Buildings>
     <Employees v-if="currentPage === 'Employees' && isAdmin"></Employees>
     <div v-if="currentPage === 'Home' && isAuthed">
       <h1> Search Tasks </h1>
@@ -30,7 +30,8 @@ export default {
       user: {},
       isAuthed: false,
       isAdmin: false,
-      currentPage: 'Home'
+      currentPage: 'Home',
+      buildings: {}
     }
   },
   methods: {
@@ -47,6 +48,18 @@ export default {
     updatePage (e) {
       this.currentPage = e
     }
+  },
+  beforeMount () {
+    // API call to run getAllRooms() here
+    this.buildings = [
+      { name: 'building 1', rooms: ['room 1', 'room 2', 'room 3', 'room 4', 'room 5'] },
+      { name: 'building 2', rooms: ['room 1', 'room 2', 'room 3', 'room 4', 'room 5'] },
+      { name: 'building 3', rooms: ['room 1', 'room 2', 'room 3', 'room 4', 'room 5'] },
+      { name: 'building 4', rooms: ['room 1', 'room 2', 'room 3', 'room 4', 'room 5'] },
+      { name: 'building 5', rooms: ['room 1', 'room 2', 'room 3', 'room 4', 'room 5'] },
+      { name: 'building 6', rooms: ['room 1', 'room 2', 'room 3', 'room 4', 'room 5'] },
+      { name: 'test', rooms: ['124', '1203', '125'] }
+    ]
   }
 }
 </script>
