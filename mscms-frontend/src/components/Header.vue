@@ -5,7 +5,7 @@
     <Menu :signedUser="user" @c="sendPage"/>
     <div style='height:100%' v-show="firstSignIn">
       <button class = 'user-button'> Hello, {{ user.givenName }}</button>
-      <GoogleSignIn  class="signin-container" v-if="firstSignIn"/>
+      <GoogleSignIn class="signin-container" v-if="firstSignIn"/>
     </div>
   </div>
   <Welcome v-if="!firstSignIn" @welcomeAuth="onAuth"></Welcome>

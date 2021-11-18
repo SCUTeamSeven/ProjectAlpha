@@ -77,9 +77,16 @@ export default {
   },
   beforeMount () {
     var userCookie = this.cookies.get('user')
-    if (Object.keys(userCookie).length !== 0) {
-      this.user = userCookie
-      this.$emit('googleAuth', this.user)
+
+    if (userCookie !== null) {
+      var len = Object.keys(userCookie).length
+
+      if (len !== null || len !== undefined) {
+        if (len !== 0) {
+          this.user = userCookie
+          this.$emit('googleAuth', this.user)
+        }
+      }
     }
   }
 }

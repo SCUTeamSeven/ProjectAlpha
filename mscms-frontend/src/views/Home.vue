@@ -1,9 +1,9 @@
 <template>
   <div class="main-view">
     <Header @headerAuth="onAuth" @currentPage="updatePage"></Header>
-    <aTasks v-if="currentPage === 'Tasks'"></aTasks>
-    <Buildings v-if="currentPage === 'Buildings'"></Buildings>
-    <Employees v-if="currentPage === 'Employees'"></Employees>
+    <aTasks v-if="currentPage === 'Tasks' && isAdmin"></aTasks>
+    <Buildings v-if="currentPage === 'Buildings' && isAdmin"></Buildings>
+    <Employees v-if="currentPage === 'Employees' && isAdmin"></Employees>
     <div v-if="currentPage === 'Home' && isAuthed">
       <h1> Search Tasks </h1>
     </div>

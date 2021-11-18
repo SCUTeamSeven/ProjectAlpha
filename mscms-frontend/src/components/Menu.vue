@@ -3,7 +3,7 @@
     <button @click="$emit('c', 'Home')" v-if="user.isAdmin">Search Tasks</button>
     <button @click="$emit('c', 'Buildings')" v-if="user.isAdmin">View/Edit Buildings</button>
     <button @click="$emit('c', 'Tasks')" v-if="user.isAdmin">Create/Assign Tasks</button>
-    <button @click="$emit('c', 'Employees')" v-if="user.isAdmin">Manage Employees</button>
+    <button @click="$emit('c', 'Employees')" v-if="user.isAdmin">Manage Users</button>
   </div>
 </template>
 
