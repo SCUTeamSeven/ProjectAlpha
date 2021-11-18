@@ -1,31 +1,37 @@
 <template>
   <div class="buildings">
-    <h1>View/Edit Buildings</h1>
-    <BuildingTable :buildings="buildings"></BuildingTable>
+    <div v-if="activeBuilding===null">
+      <h1>View/Edit Buildings</h1>
+      <BuildingsTable :buildings="buildings" @buildingSelected="buildingSelected"/>
+    </div>
+    <ActiveBuilding v-if="activeBuilding!==null" :currentBuilding="activeBuilding" @r="buildingSelected(null)"/>
   </div>
 </template>
 
 <script>
-import BuildingTable from '@/components/BuildingTable.vue'
+import BuildingsTable from '@/components/BuildingsTable.vue'
+import ActiveBuilding from '@/views/ActiveBuilding.vue'
 
 export default {
   name: 'Buildings',
   components: {
-    BuildingTable
+    BuildingsTable,
+    ActiveBuilding
   },
   props: {
     buildings: Object
   },
   data () {
     return {
-      allChecked: false,
-      selectedBuildings: []
+      activeBuilding: null
     }
   },
-  watch: {
-    selectedBuildings () {
-      if (this.selectedBuildings.length === this.buildings.length) {
-        this.allChecked = true
+  methods: {
+    buildingSelected (e) {
+      if (e === null) {
+        this.activeBuilding = null
+      } else {
+        this.activeBuilding = this.buildings.find(({ name }) => name === e)
       }
     }
   }

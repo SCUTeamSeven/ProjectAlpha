@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import aTasks from '../views/aTasks.vue'
 import Buildings from '../views/Buildings.vue'
 import uTasks from '../views/uTasks.vue'
-import Building from '../views/Building.vue'
+import ActiveBuilding from '../views/ActiveBuilding.vue'
 import User from '../views/User.vue'
 
 const routes = [
@@ -36,7 +36,7 @@ const routes = [
   {
     path: '/buildings/:building',
     name: 'Building',
-    component: Building
+    component: ActiveBuilding
   },
   {
     path: '/utasks',
