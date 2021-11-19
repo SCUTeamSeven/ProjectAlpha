@@ -38,9 +38,9 @@
 
 ###  Project Requirements List:
  * [ ] Clientside
-	 * [ ] Home / Authentication Page
-	 	 * [ ] Operator View
-	 	 * [ ] Administrator View
+	 * [X] Home / Authentication Page
+	 	 * [X] Operator View
+	 	 * [X] Administrator View
 	 * [ ] Administrator View
 		 * [ ] Building Management
 			 * [ ] Create building
@@ -75,7 +75,7 @@
 * [ ] Serverside
 	* [ ] Google Sheets data manipulation
 	* [ ] REST API (Offline viewing)
-	* [ ] User authentication
+	* [X] User authentication
 
 ### Project Images:
 #### Project Data Flow
