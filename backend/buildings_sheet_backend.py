@@ -29,7 +29,6 @@ class Buildings:
             return {}
 
         target = target.lower()
-        #target_idx = self.buildings.find(target, in_row = 1)
         room_list = self.buildings.col_values(scan.col)
         bldg_name = room_list.pop(0)
 
