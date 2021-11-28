@@ -109,4 +109,12 @@ export default {
   .roomTable input {
    transform:scale(1.4)
  }
+  // make room look clickable
+  .roomTable a {
+    text-decoration: underline;
+    cursor: pointer;
+ }
+ .roomTable a:hover {
+    color: #b30738;
+ }
  </style>

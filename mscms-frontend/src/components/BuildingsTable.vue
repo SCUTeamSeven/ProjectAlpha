@@ -52,7 +52,7 @@ export default {
           this.selectedBuildings.push(this.buildings[i].name)
         }
       } else {
-        // otherwise, remove everything
+        // otherwise, remove everything from selected array
         this.selectedBuildings = []
       }
     }
@@ -110,5 +110,13 @@ export default {
  //increase size of checkbox
   .buildingTable input {
    transform:scale(1.4)
+ }
+ // make building look clickable
+  .buildingTable a {
+    text-decoration: underline;
+    cursor: pointer;
+ }
+ .buildingTable a:hover {
+    color: #b30738;
  }
  </style>

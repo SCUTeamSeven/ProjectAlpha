@@ -4,8 +4,8 @@
     v-model="value"
     :options="options"
     :multiple="true"
-    group-values="libs"
-    group-label="language"
+    group-values="rooms"
+    group-label="name"
     :group-select="true"
     placeholder="Type to search"
     track-by="name"
@@ -21,38 +21,32 @@
 import VueMultiselect from 'vue-multiselect'
 export default {
   components: { VueMultiselect },
+  props: { buildings: Object },
   data () {
     return {
-      value: [],
-      options: [
-        {
-          language: 'Javascript',
-          libs: [
-            { name: 'Vue.js', category: 'Front-end' },
-            { name: 'Adonis', category: 'Backend' }
-          ]
-        },
-        {
-          language: 'Ruby',
-          libs: [
-            { name: 'Rails', category: 'Backend' },
-            { name: 'Sinatra', category: 'Backend' }
-          ]
-        },
-        {
-          language: 'Other',
-          libs: [
-            { name: 'Laravel', category: 'Backend' },
-            { name: 'Phoenix', category: 'Backend' }
-          ]
+      value: []
+    }
+  },
+  computed: {
+    options () {
+      var x = []
+      for (var i in this.buildings) {
+        var y = { name: this.buildings[i].name, rooms: [] }
+        for (var j in this.buildings[i].rooms) {
+          y.rooms.push({ name: this.buildings[i].name + ' - ' + this.buildings[i].rooms[j], room: this.buildings[i].rooms[j], building: this.buildings[i].name })
         }
-      ]
+        x.push(y)
+      }
+      return x
     }
   },
   methods: {
     dispatchAction (actionName) {
       console.log(actionName)
     }
+  },
+  updated () {
+    console.log(this.value)
   }
 }
 </script>
