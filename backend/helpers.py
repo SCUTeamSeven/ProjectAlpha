@@ -1,3 +1,6 @@
+# Irvin Samuel
+#Helper functions for the buildings functions and templates functions
+
 def colnum_string(n):
     string = ""
     while n > 0:
