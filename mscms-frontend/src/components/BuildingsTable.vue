@@ -71,7 +71,6 @@ export default {
    overflow: hidden;
    border-radius: 20px;
    border:1px solid gray;
-
  }
  //full table witdh
  .buildingTable{

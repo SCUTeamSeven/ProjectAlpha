@@ -2,7 +2,7 @@
   <div class="tasks">
     <h1>Create/Assign Tasks</h1>
     <TaskTypeCreator :taskTypes="taskTypes" @updateTaskTypes="updateTaskTypes"/>
-    <AssignTasks :buildings="buildings"/>
+    <AssignTasks :taskTypes="taskTypes" :buildings="buildings"/>
   </div>
 </template>
 
