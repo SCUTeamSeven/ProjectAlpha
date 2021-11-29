@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>Manage Users</h1>
-
     <div class="manage-users">
       <ManageAdmin :inputAdmins='admins'/>
       <ManageEmployee :inputEmps='employees'/>
@@ -21,8 +20,8 @@ export default {
   },
   data () {
     return {
-      admins: ['jjimenez2@scu.edu', 'travisscott@astroworld.com'],
-      employees: ['jj@scu.edu', 'dd@scu.edu']
+      admins: ['jjimenez2@scu.edu', 'csarkissian@scu.edu'],
+      employees: ['jj@scu.edu', 'dd@scu.edu', 'travisscott@scu.edu']
     }
   },
   methods: {
