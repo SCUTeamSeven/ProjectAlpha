@@ -12,7 +12,7 @@
           <td><input type='checkbox' v-model="selectedBuildings" :value="building.name"></td>
           <td><a @click="$emit('buildingSelected', building.name)">{{building.name}}</a></td>
           <td>{{building.rooms.length}} Rooms</td>
-          <td>{{numbers[buildingsCopy.findIndex(x => x === building)].length}} Task<span v-if="buildingsCopy.findIndex(x => x === building) !== 1">s</span></td>
+          <td>{{numbers[findBuildingIndex(building)].length}} Task<span v-if="buildingsCopy.findIndex(x => x === building) !== 1">s</span></td>
         </tr>
         <tr v-if="addNewBuilding">
           <td></td>
@@ -45,7 +45,8 @@ export default {
       newBuildingName: '',
       addNewBuilding: false,
       buildingsCopy: [],
-      numbers: []
+      numbers: [],
+      displayNumbers: []
     }
   },
   watch: {
@@ -89,6 +90,14 @@ export default {
         }
       }
       return validated
+    },
+    findBuildingIndex (building) {
+      var x = this.buildingsCopy.findIndex(x => x === building)
+      if (x < 0) {
+        return 0
+      } else {
+        return x
+      }
     }
   },
   created () {
@@ -97,7 +106,13 @@ export default {
     }
     for (i in this.buildings) {
       this.buildingsCopy.push(this.buildings[i])
-      this.numbers[i] = this.taskNumbers[i]
+    }
+    for (i in this.buildingsCopy) {
+      if (this.taskNumbers[i] === undefined) {
+        this.numbers[i] = []
+      } else {
+        this.numbers[i] = this.taskNumbers[i]
+      }
     }
   }
 }

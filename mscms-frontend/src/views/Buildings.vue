@@ -34,7 +34,6 @@ export default {
     buildingSelected (e) {
       if (e.name === '') {
         this.activeBuilding = e
-        console.log(e)
         this.ready = false
       } else {
         this.activeBuilding = this.buildings.find(({ name }) => name === e)
