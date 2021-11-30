@@ -1,7 +1,10 @@
-from flask import Flask, request
+from flask import Flask
 from flask_restful import Resource, Api
+
 from buildings_sheet_backend import Buildings
 from templates_sheet_backend import Templates
+from users_sheet_backend import Users
+from tasks_sheet_backend import Tasks
 
 app = Flask(__name__)
 api = Api(app)
@@ -78,14 +81,103 @@ class OneTemplateByIDRoute(Resource):
         return self.t1.getOneTemplateByID(temp_id)
 
 
+class ALLAdminsRoute(Resource):
+    def __init__(self):
+        self.a1 = Users()
+
+    def get(self):
+        return self.a1.get_admins()
+
+
+class AdminsRoute(Resource):
+    def __init__(self):
+        self.user = Users()
+
+    def put(self, target):
+        return self.user.add_admin(target)
+
+    def delete(self, target):
+        return self.user.remove_admin(target)
+
+    def get(self, target):
+        return self.user.search_admins(target)
+
+
+class ALLOperatorsRoute(Resource):
+    def __init__(self):
+        self.user = Users()
+
+    def get(self):
+        return self.user.get_operators()
+
+
+class OperatorsRoute(Resource):
+    def __init__(self):
+        self.user = Users()
+
+    def put(self, target):
+        return self.user.add_operator(target)
+
+    def delete(self, target):
+        return self.user.remove_operator(target)
+
+    def get(self, target):
+        return self.user.search_operators(target)
+
+
+class ALLTasksRoute(Resource):
+    def __init__(self):
+        self.tasks = Tasks()
+
+    def get(self):
+        return self.tasks.get_all_tasks()
+
+
+class TasksRoute(Resource):
+    def __init__(self):
+        self.tasks = Tasks()
+
+    def delete(self, task_id):
+        return self.tasks.delete_task(task_id)
+
+    def get(self, task_id):
+        return self.tasks.get_task(task_id)
+
+
+class UpdateTaskRoute(Resource):
+    def __init__(self):
+        self.tasks = Tasks()
+
+    def update(self, task_info):
+        return self.tasks.update_task(task_info)
+
+
+class BatchUpdateTaskRoute(Resource):
+    def __init__(self):
+        self.tasks = Tasks()
+
+    def update(self, task_list):
+        return self.tasks.batch_update_tasks(task_list)
+
+
 api.add_resource(AllBuildingsRoute, '/bldgs/all')
 api.add_resource(AllRoomsRoute, '/rooms/all')
 api.add_resource(AllTemplatesRoute, '/temps/all')
-
 api.add_resource(OneBuildingRoute, '/bldgs/<string:bldg_name>')
 api.add_resource(OneRoomRoute, '/rooms/<string:bldg_name>/room_<string:room_name>')
 api.add_resource(OneTemplateRoute, '/temps/<string:temp_name>')
-api.add_resource(OneTemplateByIDRoute, '/temps/id_<string:temp_ID>')
+api.add_resource(OneTemplateByIDRoute, '/temps/id_<string:temp_id>')
+
+api.add_resource(ALLAdminsRoute, '/admins/all')
+api.add_resource(AdminsRoute, '/admins/<string:target>')
+
+api.add_resource(ALLOperatorsRoute, '/operators/all')
+api.add_resource(OperatorsRoute, '/operators/<string:target>')
+
+api.add_resource(ALLTasksRoute, '/tasks/all')
+api.add_resource(TasksRoute, '/tasks/taskID_<int:task_id>')
+api.add_resource(UpdateTaskRoute, '/tasks/taskInfo')
+api.add_resource(BatchUpdateTaskRoute, '/tasks/taskList')
 
 if __name__ == '__main__':
     app.run(debug=True)
