@@ -5,15 +5,14 @@ from helpers import *
 class Templates:
     def __init__(self):
         self.gc = gs.service_account(filename = 'user_creds.json')
-        self.master_file = self.gc.open_by_url('https://docs.google.com/spreadsheets/d/1gXJndJl3IdzUVs8q79H0CgwZUUhGR5BUX5TfueV1tnw/edit#gid=73952533')
-        self.database_sheet = self.master_file.worksheet("database")
-        self.templates_count = 0
-        self.start_cell = [1,9]
+        self.master_file = self.gc.open_by_url('https://docs.google.com/spreadsheets/d/13rNCLMxFNuuAJTTg9TeBIREOrr793I1PGwssldGqizA/edit#gid=1026487838')
+        self.database_sheet = self.master_file.worksheet("Templates")
+        self.start_cell = [1,1]
         self.max_attributes = 10 # set at 10 but value is arbitrary
 
     def getTemplateCount(self): # done
         range_size = len(self.database_sheet.col_values(self.start_cell[1]))
-        return (range_size // 2) + 1
+        return (range_size / 2)
 
     def getOneTemplateByName(self, target): # done
         target_cell = self.database_sheet.find(target, in_column = self.start_cell[1])
@@ -37,7 +36,7 @@ class Templates:
     def getOneTemplateByID(self, target): # done
         target_cell = self.database_sheet.find(target, in_column = self.start_cell[1])
         if(target_cell == None):
-            #print("Target not in worksheet.")
+
             return {}
 
         attribute_list = []
@@ -62,9 +61,8 @@ class Templates:
         i = 0
         task_list = []
         task_len = len(task_types)
-        #print(f"{task_len} is the length")
+
         while (i < task_len):
-            #print(f"currently at i = {i}\n")
             task_list.append({"name" : task_types[i][0], "id": task_types[i+1][0]})
             i += 2
 
@@ -76,6 +74,7 @@ class Templates:
 
         templates = []
         i = 1
+
         while (i < col_size):
             range = f"{coords2A1String(i, self.start_cell[1])}:{coords2A1String(i+1, self.start_cell[1] + self.max_attributes + 1)}"
             template_info = self.database_sheet.get(range)
@@ -84,6 +83,7 @@ class Templates:
             task_name = template_info[0].pop(0)
             task_id = template_info[1].pop()
             for att in template_info[0]:
+                #print(att)
                 att = js.loads(att)
                 attributes.append(att)
 
@@ -93,8 +93,8 @@ class Templates:
         return templates
 
 
-    def addTemplate(self, newTemplateName, attributes): #TODO: add IDs
-        if (self.database_sheet.find(target, in_column = self.start_cell[1]) is not None):
+    def addTemplate(self, newTemplateName, attributes):
+        if (self.database_sheet.find(newTemplateName, in_column = self.start_cell[1]) is not None):
             return
 
         col_size = len(self.database_sheet.col_values(self.start_cell[1]))
@@ -115,28 +115,49 @@ class Templates:
             self.database_sheet.update_cell(new_template_start_row, self.start_cell[1] + col_num, att_info) # can be edited as packet attributes are finalized
             col_num += 1
 
-    def removeTemplate(self, target): # target will hold target id #done
+    def removeTemplateByID(self, target): # target will hold target id #done
         target_cell = self.database_sheet.find(target, in_column = self.start_cell[1]) # holds [row,col,value]
 
         if(target_cell == None):
             return
+        template_begin = [target_cell.row - 1, target_cell.col]
+        A1_template_begin = coords2A1String(template_begin[0], template_begin[1])
 
-        # copies templates below target and pastes them in place of target, filling blanks in database
-        target_range_endcell = [target_cell.row + 1, target_cell.col + self.max_attributes + 1] #establishes range to extend to next row and 11 cols (10 attributes max) over
-        target_info_range = f"{cell2A1String(target_cell)}:{coords2A1String(target_range_endcell[0], target_range_endcell[1])}"
 
-        remaining_template_start = [target_cell.row + 2, target_cell.col]
-        remaining_template_end = [len(self.database_sheet.col_values(target_cell.col))+1,remaining_template_start[1] + self.max_attributes + 1]
+        target_range_endcell = [template_begin[0] + 1, template_begin[1] + self.max_attributes + 1] #establishes range to extend to next row and n+1 cols (n attributes max) over
+        target_info_range = f"{A1_template_begin}:{coords2A1String(target_range_endcell[0], target_range_endcell[1])}"
+
+        remaining_template_start = [template_begin[0] + 2, template_begin[1]]
+        remaining_template_end = [len(self.database_sheet.col_values(template_begin[1]))+1,remaining_template_start[1] + self.max_attributes + 1]
         remaining_template_range = f"{coords2A1String(remaining_template_start[0],remaining_template_start[1])}:{coords2A1String(remaining_template_end[0],remaining_template_end[1])}"
 
         template_length = remaining_template_end[0] - remaining_template_start[0]
-        new_range_end = [target_cell.row + template_length, target_range_endcell[1]]
+        new_range_end = [template_begin[0] + template_length, target_range_endcell[1]]
 
-        new_range = f"{cell2A1String(target_cell)}:{coords2A1String(new_range_end[0], new_range_end[1])}"
+        new_range = f"{A1_template_begin}:{coords2A1String(new_range_end[0], new_range_end[1])}"
 
-        remaining_template_info = self.database_sheet.get(remaining_template_range)
-        self.database_sheet.batch_clear([target_info_range, remaining_template_range])
-        self.database_sheet.update(new_range, remaining_template_info)
+        #
+        # # copies templates below target and pastes them in place of target, filling blanks in database
+        # target_range_endcell = [target_cell.row + 1, target_cell.col + self.max_attributes + 1] #establishes range to extend to next row and n+1 cols (n attributes max) over
+        # target_info_range = f"{cell2A1String(target_cell)}:{coords2A1String(target_range_endcell[0], target_range_endcell[1])}"
+        #
+        # remaining_template_start = [target_cell.row + 2, target_cell.col]
+        # remaining_template_end = [len(self.database_sheet.col_values(target_cell.col))+1,remaining_template_start[1] + self.max_attributes + 1]
+        # remaining_template_range = f"{coords2A1String(remaining_template_start[0],remaining_template_start[1])}:{coords2A1String(remaining_template_end[0],remaining_template_end[1])}"
+        #
+        # template_length = remaining_template_end[0] - remaining_template_start[0]
+        # new_range_end = [target_cell.row + template_length, target_range_endcell[1]]
+        #
+        # new_range = f"{cell2A1String(target_cell)}:{coords2A1String(new_range_end[0], new_range_end[1])}"
+        #
+        # remaining_template_info = self.database_sheet.get(remaining_template_range)
+        # self.database_sheet.batch_clear([target_info_range, remaining_template_range])
+        # self.database_sheet.update(new_range, remaining_template_info)
 
-    def editTemplateName(self,newName):
-        pass
+    def editTemplateName(self, templateID, newName):
+        target_cell = self.database_sheet.find(templateID, in_column = self.start_cell[1]) # holds [row,col,value]
+
+        if(target_cell == None):
+            return
+
+        self.database_sheet.update_cell(target_cell.row - 1, target_cell.col, newName)
