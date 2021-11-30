@@ -1,15 +1,17 @@
 <template>
     <div class = 'tasktypecreator'>
         <h2>Create/Edit Task Types</h2>
+        <div style="height:42px;display:flex;align-items:center;">
         <!-- select task type to edit -->
         <select v-model="selectedType">
           <option :value="{name: '', attributes: []}" selected>New Task Type</option>
           <option v-for="type in taskTypesCopy" :key="type.name" :value="type">{{ type.name }}
           </option>
         </select>
+        <input class="newTaskName" v-if="selectedType.name === ''" v-model="selectedTypeCopy.name" placeholder = "New Task Type Name">
+        </div>
         <!-- success/error message -->
         <div class = 'message' v-if="message !== ''">{{ message }}</div>
-        <input class="newTaskName" v-if="selectedType.name === ''" v-model="selectedTypeCopy.name" placeholder = "New Task Type Name">
         <div class="taskTableOuter">
         <table class='taskTypeTable'>
             <tr>
@@ -226,7 +228,7 @@ export default {
   background-color: white;
   border-radius: 5px;
   font-size: 16px;
-  margin-top:30px;
+  margin-left:30px;
 }
 .newTaskName::placeholder {
   color:rgb(85, 85, 85);

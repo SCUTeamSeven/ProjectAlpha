@@ -1,7 +1,7 @@
 <template>
   <div class="activeBuilding">
     <h1>{{currentBuilding.name}}<button @click="backToBuildings()">Back to Buildings</button></h1>
-    <RoomsTable :rooms="rooms" @roomSelected="roomSelected"/>
+    <RoomsTable :rooms="rooms" :roomNumbers="roomNumbers" @roomSelected="roomSelected"/>
   </div>
 </template>
 
@@ -14,7 +14,8 @@ export default {
     RoomsTable
   },
   props: {
-    currentBuilding: Object
+    currentBuilding: Object,
+    roomNumbers: Object
   },
   data () {
     return {
@@ -36,7 +37,6 @@ export default {
       } else {
         this.activeRoom = e
       }
-      console.log(this.activeRoom)
     }
   }
 }

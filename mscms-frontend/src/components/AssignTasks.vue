@@ -1,7 +1,7 @@
 <template>
   <div class = 'tasksOuter'>
     <h2>Assign Tasks to Rooms</h2>
-    <div v-if="assigned" class='message'>Task<span v-if="number!==1">s</span> successfully assigned to {{number}} room<span v-if="number!==1">s</span>!</div>
+    <div v-if="assigned" class='message'>Task successfully assigned to {{number}} room<span v-if="number!==1">s</span>!</div>
     <div class = 'assignTasks'>
       <p>Assign </p>
       <select v-model="selectedType">
@@ -44,10 +44,14 @@ export default {
   },
   methods: {
     assignTasks () {
-      this.assigned = true
-      this.number = this.value.length
-      this.value = []
-      console.log(this.options)
+      if (this.selectedType === '' || this.value.length === 0) {
+        alert('Either task type or room is not selected.')
+      } else {
+        this.assigned = true
+        this.number = this.value.length
+        this.$emit('assignTasks', [this.selectedType, this.value])
+        this.value = []
+      }
     }
   },
   created () {
@@ -68,7 +72,7 @@ export default {
 
 <style>
 .tasksOuter {
-    margin:40px;
+  margin:40px 40px 200px;
   padding: 0 40px;
   width: calc(100% -  160px);
 }
@@ -100,6 +104,8 @@ export default {
 .multiselect__tags {
   max-height:200px;
   overflow: scroll;
+  border: 1px solid #cbcbcb;
+
 }
 .multiselect__option--group, .multiselect__option--group-selected.multiselect__option--highlight {
   background: #ededed;

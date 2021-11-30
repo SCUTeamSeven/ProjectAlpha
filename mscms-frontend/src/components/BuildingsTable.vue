@@ -8,14 +8,24 @@
           <th>Rooms</th>
           <th>Tasks</th>
         </tr>
-        <tr v-for="building in buildings" :key="building.name">
+        <tr v-for="building in buildingsCopy" :key="building">
           <td><input type='checkbox' v-model="selectedBuildings" :value="building.name"></td>
-          <td><a @click="$emit('buildingSelected', building.name)"> {{building.name}} </a></td>
-          <td> {{building.rooms.length}} Rooms </td>
-          <td> 0 Tasks </td>
+          <td><a @click="$emit('buildingSelected', building.name)">{{building.name}}</a></td>
+          <td>{{building.rooms.length}} Rooms</td>
+          <td>{{numbers[buildingsCopy.findIndex(x => x === building)].length}} Task<span v-if="buildingsCopy.findIndex(x => x === building) !== 1">s</span></td>
+        </tr>
+        <tr v-if="addNewBuilding">
+          <td></td>
+          <td><input style="margin-left:30px;" v-model="newBuildingName" placeholder="New Building Name"></td>
+          <td></td>
+          <td></td>
         </tr>
       </table>
     </div>
+    <div style='width:80%; padding:30px 0'>
+      <button v-if="!addNewBuilding" @click="addNewBuilding = true">Add New Building</button>
+      <button v-else @click="addNewBuilding = false">Cancel</button>
+      <button v-if="addNewBuilding && newBuildingName !== ''" @click="saveNewBuilding">Save New Building</button></div>
   </div>
 </template>
 
@@ -25,12 +35,17 @@ export default {
   components: {
   },
   props: {
-    buildings: Object
+    buildings: Object,
+    taskNumbers: Array
   },
   data () {
     return {
       allChecked: false,
-      selectedBuildings: []
+      selectedBuildings: [],
+      newBuildingName: '',
+      addNewBuilding: false,
+      buildingsCopy: [],
+      numbers: []
     }
   },
   watch: {
@@ -48,13 +63,41 @@ export default {
       if (this.allChecked) {
         // if allChecked, add all buildings to the selected array
         this.selectedBuildings = []
-        for (var i = 0; i < this.buildings.length; i++) {
-          this.selectedBuildings.push(this.buildings[i].name)
+        for (var i = 0; i < this.buildingsCopy.length; i++) {
+          this.selectedBuildings.push(this.buildingsCopy[i].name)
         }
       } else {
         // otherwise, remove everything from selected array
         this.selectedBuildings = []
       }
+    },
+    saveNewBuilding () {
+      if (this.validateNewName(this.newBuildingName)) {
+        this.buildingsCopy.push({ name: this.newBuildingName, rooms: [] })
+        this.numbers.push([])
+        this.addNewBuilding = false
+        this.newBuildingName = ''
+        this.$emit('updateBuildings', this.buildingsCopy)
+      }
+    },
+    validateNewName: function (name) {
+      var validated = 1
+      for (var i in this.buildingsCopy) {
+        if (name === this.buildingsCopy[i].name) {
+          validated = 0
+          alert('That building already exists.')
+        }
+      }
+      return validated
+    }
+  },
+  created () {
+    for (var i in this.buildingsCopy) {
+      this.numbers.push([])
+    }
+    for (i in this.buildings) {
+      this.buildingsCopy.push(this.buildings[i])
+      this.numbers[i] = this.taskNumbers[i]
     }
   }
 }
@@ -62,8 +105,11 @@ export default {
 
  <style lang="scss">
  .outerOuter {
+   padding:40px 0;
    display:flex;
+  flex-direction:column;
    justify-content:center;
+   align-items: center;
  }
  //table container
  .tableOuter {
@@ -118,4 +164,19 @@ export default {
  .buildingTable a:hover {
     color: #b30738;
  }
+ .outerOuter button {
+  padding: 15px 20px;
+  border: 1px solid #cbcbcb;
+  color: #7c7c7c;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  transition:.2s;
+  cursor: pointer;
+}
+
+.outerOuter button:hover {
+  color:black;
+  border: 1px solid black;
+}
  </style>

@@ -1,8 +1,11 @@
 <template>
   <div class="main-view">
     <Header @headerAuth="onAuth" @currentPage="updatePage"></Header>
-    <aTasks v-if="currentPage === 'Tasks' && isAdmin" :buildings="buildings" :taskTypes="taskTypes" @updateTaskTypes="updateTaskTypes"></aTasks>
-    <Buildings v-if="currentPage === 'Buildings' && isAdmin" :buildings="buildings"></Buildings>
+    <aTasks v-if="currentPage === 'Tasks' && isAdmin" :buildings="buildings" :taskTypes="taskTypes"
+    @updateTaskTypes="updateTaskTypes"
+    @assignTasks="assignTasks"
+    />
+    <Buildings v-if="currentPage === 'Buildings' && isAdmin" :buildings="buildings" :tasks="tasks" @updateBuildings="updateBuildings"></Buildings>
     <Employees v-if="currentPage === 'Employees' && isAdmin"></Employees>
     <div v-if="currentPage === 'Home' && isAuthed">
       <h1> Search Tasks </h1>
@@ -52,40 +55,1090 @@ export default {
     },
     updateTaskTypes (e) {
       this.taskTypes = e
+    },
+    updateBuildings (e) {
+      this.buildings = e
+      console.log(this.buildings)
+    },
+    assignTasks (e) {
+      var id = 0
+      if (this.tasks.length !== 0) {
+        id = this.tasks[this.tasks.length - 1].taskID + 1
+      }
+      for (var i in e[1]) {
+        var task = {
+          taskID: id++,
+          building: e[1][i].building,
+          room: e[1][i].room,
+          date: new Date().toLocaleDateString(),
+          operator: '',
+          payload: [],
+          status: 'unassigned'
+        }
+        for (var j in e[0].attributes) {
+          task.payload.push({ id: e[0].attributes[j].id, value: '' })
+        }
+        this.tasks.push(task)
+      }
+      console.log(this.tasks)
     }
   },
   beforeMount () {
     // API call to run getAllBuildings() here
-    var task = {
-      taskID: 0,
-      building: 'building1',
-      room: 'room1',
-      date: '11/19/21',
-      operator: 'chris',
-      payload: {
-        type: 'Task Type 1',
-        attributes: [
+    this.tasks = [
+      {
+        taskID: 0,
+        building: 'building 1',
+        room: 'room 3',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
           {
             id: 0,
-            value: 'text value'
+            value: ''
           },
           {
             id: 1,
-            value: 'true'
+            value: ''
           },
           {
             id: 2,
-            value: 'false'
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 1,
+        building: 'building 1',
+        room: 'room 1',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 2,
+        building: 'building 1',
+        room: 'room 2',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 3,
+        building: 'building 1',
+        room: 'room 3',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 4,
+        building: 'building 1',
+        room: 'room 4',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 5,
+        building: 'building 1',
+        room: 'room 5',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 6,
+        building: 'test',
+        room: '124',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 7,
+        building: 'test',
+        room: '1203',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 8,
+        building: 'test',
+        room: '125',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 9,
+        building: 'building 1',
+        room: 'room 1',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
           },
           {
             id: 3,
-            value: 'large text value'
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
           }
-        ]
+        ],
+        status: 'unassigned'
       },
-      status: 'inactive'
-    }
-    this.tasks = [task, task, task, task, task, task]
+      {
+        taskID: 10,
+        building: 'building 1',
+        room: 'room 2',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 11,
+        building: 'building 1',
+        room: 'room 3',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 12,
+        building: 'building 1',
+        room: 'room 4',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 13,
+        building: 'building 1',
+        room: 'room 5',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 14,
+        building: 'building 2',
+        room: 'room 4',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 15,
+        building: 'building 2',
+        room: 'room 1',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 16,
+        building: 'building 3',
+        room: 'room 4',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 17,
+        building: 'building 4',
+        room: 'room 1',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 18,
+        building: 'building 4',
+        room: 'room 2',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 19,
+        building: 'building 4',
+        room: 'room 3',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 20,
+        building: 'building 4',
+        room: 'room 4',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 21,
+        building: 'building 4',
+        room: 'room 5',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 22,
+        building: 'building 5',
+        room: 'room 2',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 23,
+        building: 'building 5',
+        room: 'room 1',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 24,
+        building: 'building 5',
+        room: 'room 3',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 25,
+        building: 'building 5',
+        room: 'room 4',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 26,
+        building: 'building 5',
+        room: 'room 5',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 27,
+        building: 'building 6',
+        room: 'room 5',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          },
+          {
+            id: 4,
+            value: ''
+          },
+          {
+            id: 5,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 28,
+        building: 'test',
+        room: '124',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 29,
+        building: 'building 6',
+        room: 'room 4',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 30,
+        building: 'building 6',
+        room: 'room 2',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 31,
+        building: 'building 5',
+        room: 'room 2',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 32,
+        building: 'building 5',
+        room: 'room 1',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 33,
+        building: 'building 5',
+        room: 'room 3',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 34,
+        building: 'building 5',
+        room: 'room 4',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      },
+      {
+        taskID: 35,
+        building: 'building 5',
+        room: 'room 5',
+        date: '11/29/2021',
+        operator: '',
+        payload: [
+          {
+            id: 0,
+            value: ''
+          },
+          {
+            id: 1,
+            value: ''
+          },
+          {
+            id: 2,
+            value: ''
+          },
+          {
+            id: 3,
+            value: ''
+          }
+        ],
+        status: 'unassigned'
+      }
+    ]
     this.taskTypes = [
       {
         name: 'Task Type 1',

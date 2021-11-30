@@ -9,8 +9,8 @@
         </tr>
         <tr v-for="room in rooms" :key="room">
           <td><input type='checkbox' v-model="selectedRooms" :value="room.name"></td>
-          <td><a @click="$emit('roomSelected', room)"> {{room}} </a></td>
-          <td> 0 Tasks </td>
+          <td><a @click="$emit('roomSelected', room)">{{room}}</a></td>
+          <td>{{roomNumbers[rooms.findIndex(x => x === room)].length}} Task<span v-if="roomNumbers[rooms.findIndex(x => x === room)].length !== 1">s</span></td>
         </tr>
       </table>
     </div>
@@ -23,7 +23,8 @@ export default {
   components: {
   },
   props: {
-    rooms: Object
+    rooms: Object,
+    roomNumbers: Object
   },
   data () {
     return {

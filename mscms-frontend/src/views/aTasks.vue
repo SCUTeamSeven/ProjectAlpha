@@ -2,7 +2,7 @@
   <div class="tasks">
     <h1>Create/Assign Tasks</h1>
     <TaskTypeCreator :taskTypes="taskTypes" @updateTaskTypes="updateTaskTypes"/>
-    <AssignTasks :taskTypes="taskTypes" :buildings="buildings"/>
+    <AssignTasks :taskTypes="taskTypes" :buildings="buildings" @updateBuildings="updateBuildings" @assignTasks="assignTasks"/>
   </div>
 </template>
 
@@ -25,8 +25,13 @@ export default {
   },
   methods: {
     updateTaskTypes (e) {
-      console.log(e)
       this.$emit('updateTaskTypes', e)
+    },
+    updateBuildings (e) {
+      this.$emit('updateBuildings', e)
+    },
+    assignTasks (e) {
+      this.$emit('assignTasks', e)
     }
   }
 }
