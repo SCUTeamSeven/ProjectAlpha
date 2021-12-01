@@ -5,7 +5,7 @@
     @updateTaskTypes="updateTaskTypes"
     @assignTasks="assignTasks"
     />
-    <Buildings v-if="currentPage === 'Buildings' && isAdmin" :buildings="buildings" :tasks="tasks" @updateBuildings="updateBuildings"></Buildings>
+    <Buildings v-if="currentPage === 'Buildings' && isAdmin" :buildings="buildings" :tasks="tasks" @updateBuildings="updateBuildings" @removeRooms="removeRooms" @deleteTasks="deleteTasks" ref="Buildings"></Buildings>
     <Employees v-if="currentPage === 'Employees' && isAdmin"></Employees>
     <div v-if="currentPage === 'Home' && isAuthed">
       <h1> Search Tasks </h1>
@@ -58,7 +58,20 @@ export default {
     },
     updateBuildings (e) {
       this.buildings = e
-      console.log(this.buildings)
+    },
+    removeRooms (e) {
+      for (var j in e[1][0]) {
+        var buildingIndex = this.buildings.findIndex(x => x === e[0])
+        var roomIndex = this.buildings[buildingIndex].rooms.findIndex(x => x === e[1][0][j])
+        this.deleteTasks(e[1][1][roomIndex])
+      }
+      for (var i in e[1][0]) {
+        buildingIndex = this.buildings.findIndex(x => x === e[0])
+        roomIndex = this.buildings[buildingIndex].rooms.findIndex(x => x === e[1][0][i])
+        this.buildings[buildingIndex].rooms.splice(roomIndex, 1)
+      }
+      this.$refs.Buildings.updateTaskNumbers()
+      this.$refs.Buildings.updateRoomNumbers()
     },
     assignTasks (e) {
       var id = 0
@@ -80,7 +93,11 @@ export default {
         }
         this.tasks.push(task)
       }
-      console.log(this.tasks)
+    },
+    deleteTasks (e) {
+      for (var i in e) {
+        this.tasks.splice(this.tasks.findIndex(x => x === e[i]), 1)
+      }
     }
   },
   beforeMount () {

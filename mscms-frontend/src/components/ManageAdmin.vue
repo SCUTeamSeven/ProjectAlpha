@@ -36,7 +36,6 @@ export default {
       for (var i = 0; i < this.admins.length; i++) {
         if (this.checkedAdmins[i] === true) {
           this.selectedAdmins[this.selectedAdmins.length + 1] = this.admins[i]
-          console.log(this.selectedAdmins)
         }
       }
     }

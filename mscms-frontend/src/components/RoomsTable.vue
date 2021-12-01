@@ -7,12 +7,24 @@
           <th>Room</th>
           <th>Tasks</th>
         </tr>
-        <tr v-for="room in rooms" :key="room">
-          <td><input type='checkbox' v-model="selectedRooms" :value="room.name"></td>
+        <tr v-for="room in roomsCopy" :key="room">
+          <td><input type='checkbox' v-model="selectedRooms" :value="room"></td>
           <td><a @click="$emit('roomSelected', room)">{{room}}</a></td>
-          <td>{{roomNumbers[rooms.findIndex(x => x === room)].length}} Task<span v-if="roomNumbers[rooms.findIndex(x => x === room)].length !== 1">s</span></td>
+          <td>{{numbers[roomsCopy.findIndex(x => x === room)].length}} Task<span v-if="numbers[roomsCopy.findIndex(x => x === room)].length !== 1">s</span></td>
+        </tr>
+        <tr v-if="addNewRoom">
+          <td></td>
+          <td><input style="margin-left:30px;" v-model="newRoomName" placeholder="New Room Name"></td>
+          <td></td>
         </tr>
       </table>
+    </div>
+    <div style='width:80%; padding:30px 0'>
+      <button v-if="!addNewRoom" @click="addNewRoom = true">Add New Room</button>
+      <button v-else @click="addNewRoom = false, newRoomName = ''">Cancel</button>
+      <button v-if="addNewRoom && newRoomName !== ''" @click="saveNewRoom">Save New Room</button>
+      <button v-if="selectedRooms.length > 0" @click="$emit('removeRooms', [selectedRooms, roomNumbers]); selectedRooms = [] ">Delete Selected Rooms</button>
+
     </div>
   </div>
 </template>
@@ -29,7 +41,10 @@ export default {
   data () {
     return {
       allChecked: false,
-      selectedRooms: []
+      selectedRooms: [],
+      addNewRoom: false,
+      newRoomName: '',
+      numbers: []
     }
   },
   watch: {
@@ -54,7 +69,33 @@ export default {
         // otherwise, remove everything
         this.selectedRooms = []
       }
+    },
+    saveNewRoom () {
+      if (this.validateNewName(this.newRoomName)) {
+        this.numbers.push([])
+        this.roomsCopy.push(this.newRoomName)
+        this.$emit('addNewRoom')
+        this.newRoomName = ''
+        this.addNewRoom = false
+      }
+    },
+    validateNewName: function (name) {
+      var validated = 1
+      for (var i in this.roomsCopy) {
+        if (name === this.roomsCopy[i]) {
+          validated = 0
+          alert('That room already exists.')
+        }
+      }
+      return validated
     }
+  },
+  created () {
+    this.roomsCopy = this.rooms
+    this.numbers = this.roomNumbers
+  },
+  updated () {
+    this.numbers = this.roomNumbers
   }
 }
 </script>

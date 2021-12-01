@@ -2,9 +2,9 @@
   <div class="buildings">
     <div v-if="!ready">
       <h1>View/Edit Buildings</h1>
-      <BuildingsTable :buildings="buildings" @buildingSelected="buildingSelected" @updateBuildings="updateBuildings" :taskNumbers="taskNumbers"/>
+      <BuildingsTable :buildings="buildings" @buildingSelected="buildingSelected" @updateBuildings="updateBuildings" @deleteTasks="deleteTasks" :taskNumbers="taskNumbers"/>
     </div>
-    <ActiveBuilding v-if="ready" :currentBuilding="activeBuilding" :roomNumbers="roomNumbers" @r="buildingSelected({name: '', rooms: []})"/>
+    <ActiveBuilding v-if="ready" :buildings="buildings" :currentBuilding="activeBuilding" :roomNumbers="roomNumbers" @addNewRoom="addNewRoom" @removeRooms="removeRooms" @r="buildingSelected({name: '', rooms: []})"/>
   </div>
 </template>
 
@@ -41,27 +41,54 @@ export default {
     },
     updateBuildings (e) {
       this.$emit('updateBuildings', e)
-    }
-  },
-  watch: {
-    activeBuilding () {
+    },
+    addNewRoom () {
+      this.$emit('updateBuildings', this.buildings)
+    },
+    removeRooms (e) {
+      this.$emit('removeRooms', e)
+    },
+    deleteTasks (e) {
+      this.$emit('deleteTasks', e)
+    },
+    updateRoomNumbers () {
       var d
-      if (this.activeBuilding.name !== '') {
-        this.roomNumbers = []
-        for (var i in this.buildings) {
-          if (this.activeBuilding === this.buildings[i]) {
-            for (d in this.buildings[i].rooms) {
-              this.roomNumbers.push([])
-            }
-            for (d in this.taskNumbers[i]) {
-              for (var k in this.buildings[i].rooms) {
-                if (this.taskNumbers[i][d].room === this.buildings[i].rooms[k]) {
-                  this.roomNumbers[k].push(this.taskNumbers[i][d])
-                }
+      this.roomNumbers = []
+      for (var i in this.buildings) {
+        if (this.activeBuilding === this.buildings[i]) {
+          for (d in this.buildings[i].rooms) {
+            this.roomNumbers.push([])
+          }
+          for (d in this.taskNumbers[i]) {
+            for (var k in this.buildings[i].rooms) {
+              if (this.taskNumbers[i][d].room === this.buildings[i].rooms[k]) {
+                this.roomNumbers[k].push(this.taskNumbers[i][d])
               }
             }
           }
         }
+      }
+    },
+    updateTaskNumbers () {
+      var buildingTaskNumbers = []
+      var i
+      for (i in this.buildings) {
+        buildingTaskNumbers.push([])
+      }
+      for (i in this.tasks) {
+        for (var j in this.buildings) {
+          if (this.tasks[i].building === this.buildings[j].name) {
+            buildingTaskNumbers[j].push(this.tasks[i])
+          }
+        }
+      }
+      this.taskNumbers = buildingTaskNumbers
+    }
+  },
+  watch: {
+    activeBuilding () {
+      if (this.activeBuilding.name !== '') {
+        this.updateRoomNumbers()
         this.ready = true
       }
     }

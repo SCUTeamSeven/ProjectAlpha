@@ -9,10 +9,10 @@
           <th>Tasks</th>
         </tr>
         <tr v-for="building in buildingsCopy" :key="building">
-          <td><input type='checkbox' v-model="selectedBuildings" :value="building.name"></td>
+          <td><input type='checkbox' v-model="selectedBuildings" :value="building"></td>
           <td><a @click="$emit('buildingSelected', building.name)">{{building.name}}</a></td>
-          <td>{{building.rooms.length}} Rooms</td>
-          <td>{{numbers[findBuildingIndex(building)].length}} Task<span v-if="buildingsCopy.findIndex(x => x === building) !== 1">s</span></td>
+          <td>{{building.rooms.length}} Room<span v-if="building.rooms.length !== 1">s</span></td>
+          <td>{{numbers[findBuildingIndex(building)].length}} Task<span v-if="numbers[findBuildingIndex(building)].length !== 1">s</span></td>
         </tr>
         <tr v-if="addNewBuilding">
           <td></td>
@@ -25,7 +25,9 @@
     <div style='width:80%; padding:30px 0'>
       <button v-if="!addNewBuilding" @click="addNewBuilding = true">Add New Building</button>
       <button v-else @click="addNewBuilding = false">Cancel</button>
-      <button v-if="addNewBuilding && newBuildingName !== ''" @click="saveNewBuilding">Save New Building</button></div>
+      <button v-if="addNewBuilding && newBuildingName !== ''" @click="saveNewBuilding">Save New Building</button>
+      <button v-if="selectedBuildings.length > 0" @click="deleteBuildings">Delete Selected Buildings</button>
+    </div>
   </div>
 </template>
 
@@ -52,7 +54,9 @@ export default {
   watch: {
     selectedBuildings () {
       // check if all the buildings are selected, if so mark allChecked
-      if (this.selectedBuildings.length === this.buildings.length) {
+      if (this.buildingsCopy.length === 0) {
+        this.allChecked = false
+      } else if (this.selectedBuildings.length === this.buildingsCopy.length) {
         this.allChecked = true
       } else {
         this.allChecked = false
@@ -65,7 +69,7 @@ export default {
         // if allChecked, add all buildings to the selected array
         this.selectedBuildings = []
         for (var i = 0; i < this.buildingsCopy.length; i++) {
-          this.selectedBuildings.push(this.buildingsCopy[i].name)
+          this.selectedBuildings.push(this.buildingsCopy[i])
         }
       } else {
         // otherwise, remove everything from selected array
@@ -98,15 +102,22 @@ export default {
       } else {
         return x
       }
+    },
+    deleteBuildings () {
+      for (var i in this.selectedBuildings) {
+        this.$emit('deleteTasks', this.numbers[this.findBuildingIndex(this.selectedBuildings[i])])
+        this.numbers.splice(this.findBuildingIndex(this.selectedBuildings[i]), 1)
+        this.buildingsCopy.splice(this.findBuildingIndex(this.selectedBuildings[i]), 1)
+      }
+      this.$emit('updateBuildings', this.buildingsCopy)
+      this.selectedBuildings = []
     }
   },
   created () {
     for (var i in this.buildingsCopy) {
       this.numbers.push([])
     }
-    for (i in this.buildings) {
-      this.buildingsCopy.push(this.buildings[i])
-    }
+    this.buildingsCopy = this.buildings
     for (i in this.buildingsCopy) {
       if (this.taskNumbers[i] === undefined) {
         this.numbers[i] = []
