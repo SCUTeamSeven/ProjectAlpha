@@ -5,8 +5,8 @@ from helpers import *
 class Buildings:
     def __init__(self):
         self.gc = gs.service_account(filename = 'user_creds.json')
-        self.buildings_file = self.gc.open_by_url('https://docs.google.com/spreadsheets/d/1gXJndJl3IdzUVs8q79H0CgwZUUhGR5BUX5TfueV1tnw/edit')
-        self.buildings = self.buildings_file.worksheet('buildings')
+        self.buildings_file = self.gc.open_by_url('https://docs.google.com/spreadsheets/d/13rNCLMxFNuuAJTTg9TeBIREOrr793I1PGwssldGqizA/edit#gid=1026487838')
+        self.buildings = self.buildings_file.worksheet('Buildings')
         self.buildings_count = len(self.buildings.col_values(1))-1 # minus 1 to exclude the header
         self.start_cell = [2,1]
         self.last_cell = [2,1] # row, col
@@ -51,7 +51,7 @@ class Buildings:
         return self.buildings_count
 
 
-    def addBuilding(self,newBuildingName): # TODO: return error or somethibn
+    def addBuilding(self,newBuildingName):
         if(self.buildingExists(newBuildingName) != False):
             return
         if(self.getBuildingCount() == 0):
@@ -65,10 +65,9 @@ class Buildings:
 
         self.buildings_count = len(self.buildings.col_values(1))-1 # minus 1 to exclude the header
 
-    def removeBuilding(self, target): # TODO: return error or something
+    def removeBuilding(self, target):
         cells = self.buildings.findall(target.lower()) # holds [[row,col,value]]
         if(not cells):
-            #print("Target not in worksheet.")
             return
         target_column_idx = cells[0]
 
@@ -119,18 +118,16 @@ class Buildings:
     def removeRoom(self, buildingName, newRoomName): #done
         building_col_idx = self.buildingExists(buildingName)
         if(building_col_idx == False):
-            #print("Building not in database")
             return
         buildingName = buildingName.lower()
         newRoomName = newRoomName.lower()
 
         target_idx = self.buildings.find(newRoomName, in_column = building_col_idx.col)
-
         if(target_idx == None):
-            #print("Room not in building")
             return
 
         room_count = len(self.buildings.col_values(building_col_idx.col))
+        #swaps room to the last position then removes
 
         last_room_range = coords2Range(room_count,building_col_idx.col,0)
         last_room_name = self.buildings.cell(room_count,building_col_idx.col).value
