@@ -7,8 +7,6 @@ class Users:
         self.database_file = self.gc.open_by_url('https://docs.google.com/spreadsheets/d'
                                                  '/13rNCLMxFNuuAJTTg9TeBIREOrr793I1PGwssldGqizA/edit#gid=73952533')
         self.users = self.database_file.worksheet("Users")
-        self.operator_count = len(self.users.col_values(1)) - 1
-        self.admin_count = len(self.users.col_values(2)) - 1
 
     def get_operators(self):    # Returns a list of operators
         return self.users.col_values(1)[1:-1]
@@ -73,6 +71,6 @@ print(test.search_admins("axel@scu.edu"))
 print(test.search_operators("test@scu.edu"))
 print(test.search_admins("dummy"))
 test.add_admin("Test")
-test.remove_admin("Test")
 test.add_operator("Test")
+test.remove_admin("Test")
 test.remove_operator("Test")

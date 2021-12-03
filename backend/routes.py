@@ -176,8 +176,8 @@ api.add_resource(OperatorsRoute, '/operators/<string:target>')
 
 api.add_resource(ALLTasksRoute, '/tasks/all')
 api.add_resource(TasksRoute, '/tasks/taskID_<int:task_id>')
-api.add_resource(UpdateTaskRoute, '/tasks/taskInfo')
-api.add_resource(BatchUpdateTaskRoute, '/tasks/taskList')
+api.add_resource(UpdateTaskRoute, '/tasks/taskInfo_<string:task_info>')
+api.add_resource(BatchUpdateTaskRoute, '/tasks/taskList_<string:task_list>')
 
 if __name__ == '__main__':
     app.run(debug=True)
